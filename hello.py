@@ -27,13 +27,13 @@ def welcomeMessage():
     print(f'\t{welcomeSymbol}')
     print(f'\t{welcome}')
     print(f'\t{welcomeSymbol}')
-welcomeMessage()
+# welcomeMessage()
 
 def closingMessage():
     closing_msg = [['PROGRAM SELESAI, TERIMAKASIH']]
     print('\n\n')
     print(tabulate(closing_msg, tablefmt='grid', stralign='center'))
-closingMessage()    
+# closingMessage()    
 
 def showSiswa():
     print('\nDaftar Siswa:\n')
@@ -42,7 +42,7 @@ def showSiswa():
         siswa.append([idx, items['nama'], items['kelas'], items['nilai']])
             
     print(tabulate(siswa, siswaHeader, tablefmt="grid", rowalign='left')) 
-showSiswa()   
+# showSiswa()   
 
 def addSiswa():
     siswaBaru = input('\nNama Siswa Baru\t: ').title() 
@@ -59,7 +59,7 @@ def addSiswa():
     }) 
     showSiswa()
     print('\nConfirmed. Siswa baru berhasil ditambahkan!\n')
-addSiswa()
+# addSiswa()
 
 def mainMenu():
     menu = input('''
@@ -78,17 +78,13 @@ def mainMenu():
         return mainMenu() # Loop mainMenu() sampai user kasih input yang valid
     else:
         return closingMessage()
-mainMenu()
+# mainMenu()
 
-if mainMenu == '1': # [1] Tampilkan Data Siswa
-    pass
-elif mainMenu == '2': # [2] Tambah Data Siswa
-    pass
-elif mainMenu == '3': # [3] Edit Data Siswa 
-    pass
-elif mainMenu == '4': # [4] Hapus Data Siswa
-    pass
-elif mainMenu == '5': # [5] Insight
-    pass
-else: # [0] Exit
-    pass
+def main():
+    welcomeMessage()
+    while True:
+        pilihan = mainMenu()
+        if pilihan == '0':
+            break
+    closingMessage()
+main()
