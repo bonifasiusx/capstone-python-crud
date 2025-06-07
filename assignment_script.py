@@ -1,3 +1,10 @@
+'''
+INI ADALAH TUGAS LATIHAN PERTAMA (RAW VERSION)
+Dokumentasi proses, capstone lihat (main.py)
+assignment_script.py sebagai baseline awal
+'''
+
+
 from tabulate import tabulate
 
 welcome = '\nSelamat Datang di Pasar Buah'
