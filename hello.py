@@ -1,5 +1,7 @@
 import os
 from tabulate import tabulate
+# from read import *
+
 
 def checkSystemOS(): # Function untuk auto-clear tampilan di terminal
     system = os.name
@@ -10,6 +12,7 @@ def checkSystemOS(): # Function untuk auto-clear tampilan di terminal
 
 siswaDict = [ # List of Dictionary
     {
+        'nis': '49LO',
         'nama': 'Leon Kennedy', 
         'kelas': 'IX-1', 
         'nilai': {
@@ -21,17 +24,31 @@ siswaDict = [ # List of Dictionary
         }
     },
     {
+        'nis': '34SEI',
         'nama': 'Sheril Qonita', 
         'kelas': 'IX-1', 
         'nilai': {
-            'Matematika': 90,
+            'Matematika': 94,
             'IPA': 88,
-            'IPS': 72,
-            'Bahasa IND': 78,
-            'English': 82
+            'IPS': 78,
+            'Bahasa IND': 86,
+            'English': 90
         }
     },
     {
+        'nis': '22EIA',
+        'nama': 'Elisabeth Rose', 
+        'kelas': 'IX-3', 
+        'nilai': {
+            'Matematika': 72,
+            'IPA': 60,
+            'IPS': 68,
+            'Bahasa IND': 75,
+            'English': 62
+        }
+    },
+    {
+        'nis': '25JEH',
         'nama': 'Joe Hendrix', 
         'kelas': 'IX-2', 
         'nilai': {
@@ -43,6 +60,7 @@ siswaDict = [ # List of Dictionary
         }
     },
     {
+        'nis': '7RYO',
         'nama': 'Raymond Murphy', 
         'kelas': 'IX-2', 
         'nilai': {
@@ -54,6 +72,7 @@ siswaDict = [ # List of Dictionary
         }
     },
     {
+        'nis': '16DDN',
         'nama': 'Dudung Nalepa', 
         'kelas': 'IX-3', 
         'nilai': {
@@ -64,22 +83,11 @@ siswaDict = [ # List of Dictionary
             'English': 45
         }
     },
-    {
-        'nama': 'Elisabeth Rose', 
-        'kelas': 'IX-3', 
-        'nilai': {
-            'Matematika': 72,
-            'IPA': 60,
-            'IPS': 68,
-            'Bahasa IND': 75,
-            'English': 62
-        }
-    }
 ]
-siswa = [] # Nested-list
+siswa = [] # To-be --> Nested-list
 listMapel = list(siswaDict[0]['nilai'].keys()) 
 # Akses key dari: SiswaDict -> [] -> {nilai} {keys,value}
-siswaColumn = ['Idx', 'Nama', 'Kelas'] + listMapel # Concate listMapel ke column
+siswaColumn = ['NIS', 'Nama', 'Kelas'] + listMapel # Concate listMapel ke column
 
 def welcomeMessage():
     checkSystemOS()
@@ -105,7 +113,7 @@ def showSiswa(): # [1]
         siswa.append(row)
            
     print(tabulate(siswa, siswaColumn, tablefmt="grid", numalign='center', rowalign='align'))
-    mainMenu()   
+    # mainMenu()   
 
 def addNilaiSiswa(): # Support Function Menu [2]
     nilaiBaruMTK = input('\nMasukkan nilai Matematika: ')
@@ -151,16 +159,16 @@ def addSiswa(): # [2]
 
 # UPDATE [3] PROBLEM ---> editDataSiswa()
 def cariDataSiswa(): # Additional Menu + Support Function Menu [3]
-    cariSiswa = input('\nMasukkan nama lengkap siswa yang ingin dicari: ').title()
+    cariSiswa = input('\nMasukkan NIS: ').upper()
     targetSiswa = {} # Cocokin type data dengan tempat data siswa disimpan -> siswa == Dictionary
     
     for siswa in siswaDict:
-        if siswa['nama'] == cariSiswa:
+        if siswa['nis'] == cariSiswa:
             targetSiswa = siswa
             break
     # for loop dulu baru cek validasi, jangan ketuker!
     if targetSiswa == {}:
-        print(f'Siswa bernama {cariSiswa} tidak ditemukan')
+        print(f'Siswa dengan NIS {cariSiswa} tidak ditemukan')
         return cariDataSiswa()
     
     # Akses nested-dict supaya setiap mapel jadi kolom
@@ -170,7 +178,7 @@ def cariDataSiswa(): # Additional Menu + Support Function Menu [3]
     targetRow = [targetSiswa['nama'], targetSiswa['kelas']] + listNilaiTarget
     
     checkSystemOS()
-    print(f'Data siswa bernama {cariSiswa} ditemukan!\n')
+    print(f'NIS {cariSiswa} ditemukan!\n')
     print(tabulate([targetRow], headers=targetColumn, tablefmt="grid", numalign='center', rowalign='center'))
     # Jadiin function support untuk editDataSiswa()
     return cariSiswa, targetSiswa, listMapelTarget, listNilaiTarget, targetColumn, targetRow 
@@ -183,7 +191,7 @@ def editDataSiswa(): # [3] PROBLEM AT LINE 186-222
     # Kolom -> UPPER supaya bisa dicocokkan dengan input editData
     editData = input('Pilih nama kolom yang ingin dirubah: ').upper()
     
-    if editData != 'IPA' or editData != 'IPS':
+    if editData != 'IPA' and editData != 'IPS':
         editData = editData.title()
     elif editData not in targetColumnUpper:
         print('Kolom tidak ditemukan, silahkan coba lagi.')
@@ -218,8 +226,8 @@ def editDataSiswa(): # [3] PROBLEM AT LINE 186-222
         return cariDataSiswa()
     else:
         return
-editDataSiswa()
-user_pause = input()
+# editDataSiswa()
+# user_pause = input()
 '''
 Problem to fix:
 - Tampilan tabel 'target' tumpang-tindih setiap kali user pilih 'Y'
@@ -254,6 +262,9 @@ def delDataSiswa(): # [4]
         showSiswa()
 
 def mainMenu():
+    checkSystemOS()
+    welcomeMessage()
+    
     menu = input('''
     [1] Tampilkan Data Siswa
     [2] Tambah Data Siswa
@@ -267,12 +278,11 @@ def mainMenu():
     if menu == '0':
         return closingMessage()
     elif menu == '1': # checksystemOS() jangan ditaro di dalam showSiswa() supaya pernyataan validasi dari Menu lain ga langsung terhapus
-        return checkSystemOS(), showSiswa()
+        return showSiswa()
     elif menu == '2':
         return addSiswa()
     elif menu == '3':
-        pass
-        # return delDataSiswa()
+        editDataSiswa()
     elif menu == '4':
         return delDataSiswa()
     else: # Loop mainMenu() sampai user kasih input yang valid
@@ -281,7 +291,7 @@ def mainMenu():
         return mainMenu()
 
 def main():
-    welcomeMessage()
     mainMenu()
 
-main()
+if __name__ == '__main__':
+    main()
