@@ -1,10 +1,10 @@
 '''
-Si
+siswa = [] To-Be --> [Isi data siswa yang ingin ditampilkan by default (Data Siswa + Status Kelulusan)]
 '''
 
 siswaDict = [ # List of Dictionary
     {
-        'nis': '49LO',
+        'nis': '28LO',
         'nama': 'Leon Kennedy', 
         'kelas': 'IX-1', 
         'nilai': {
@@ -16,7 +16,7 @@ siswaDict = [ # List of Dictionary
         }
     },
     {
-        'nis': '34SEI',
+        'nis': '19SE',
         'nama': 'Sheril Qonita', 
         'kelas': 'IX-1', 
         'nilai': {
@@ -28,7 +28,7 @@ siswaDict = [ # List of Dictionary
         }
     },
     {
-        'nis': '22EIA',
+        'nis': '76EI',
         'nama': 'Elisabeth Rose', 
         'kelas': 'IX-3', 
         'nilai': {
@@ -40,7 +40,7 @@ siswaDict = [ # List of Dictionary
         }
     },
     {
-        'nis': '25JEH',
+        'nis': '31JE',
         'nama': 'Joe Hendrix', 
         'kelas': 'IX-2', 
         'nilai': {
@@ -52,7 +52,7 @@ siswaDict = [ # List of Dictionary
         }
     },
     {
-        'nis': '7RYO',
+        'nis': '94RY',
         'nama': 'Raymond Murphy', 
         'kelas': 'IX-2', 
         'nilai': {
@@ -64,7 +64,7 @@ siswaDict = [ # List of Dictionary
         }
     },
     {
-        'nis': '16DDN',
+        'nis': '46DD',
         'nama': 'Dudung Nalepa', 
         'kelas': 'IX-3', 
         'nilai': {
@@ -76,7 +76,7 @@ siswaDict = [ # List of Dictionary
         }
     },
 ]
-siswa = [] # To-be --> Nested-list
+siswa = []
 listMapel = list(siswaDict[0]['nilai'].keys()) 
 # Akses key dari: SiswaDict -> [] -> {nilai} {keys,value}
 siswaColumn = ['NIS', 'Nama', 'Kelas'] + listMapel # Concate listMapel ke column
