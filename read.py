@@ -18,11 +18,9 @@ def showSiswaInDetails(): # PROBLEM TO FIX
         siswa.append(row)       
            
     print(tabulate(siswa, siswaColumn, tablefmt="grid", numalign='center', rowalign='align'))
-    return
-    # return subMenu1
 
-def cariDataSiswa(): # Sub-Menu [1] -> Detail Siswa Berdasarkan NIS
-    cariSiswa = input('\nMasukkan NIS: ').upper()
+def cariDataSiswa(prompt): # Sub-Menu [1] -> Detail Siswa Berdasarkan NIS
+    cariSiswa = input(prompt).upper()
     targetSiswa = {} # Cocokin type data dengan tempat data siswa disimpan -> siswa == Dictionary
     
     for siswa in siswaDict:
@@ -31,8 +29,8 @@ def cariDataSiswa(): # Sub-Menu [1] -> Detail Siswa Berdasarkan NIS
             break
     # for loop dulu baru cek validasi, jangan ketuker!
     if targetSiswa == {}:
-        print(f'Siswa dengan NIS: {cariSiswa} tidak ditemukan')
-        return
+        print('\nData siswa tidak ditemukan, mohon masukkan NIS yang valid.')
+        return ''
     
     # Akses nested-dict supaya setiap mapel jadi kolom
     listMapelTarget = list(targetSiswa['nilai'].keys())
@@ -41,10 +39,11 @@ def cariDataSiswa(): # Sub-Menu [1] -> Detail Siswa Berdasarkan NIS
     targetRow = [targetSiswa['nis'], targetSiswa['nama'], targetSiswa['kelas']] + listNilaiTarget
     
     # checkSystemOS()
-    print(f'NIS: {cariSiswa} ditemukan!\n')
+    print(f'\nNIS: {cariSiswa} ditemukan!\n')
     print(tabulate([targetRow], headers=targetColumn, tablefmt="grid", numalign='center', rowalign='center'))
     # Jadiin function support untuk editDataSiswa()
-    return cariSiswa, targetSiswa, listMapelTarget, listNilaiTarget, targetColumn, targetRow
+    return cariSiswa, targetSiswa
+    # return cariSiswa, targetSiswa, listMapelTarget, listNilaiTarget, targetColumn, targetRow
     
 def showSiswa(): # [1]
     print('\nDashboard Siswa:\n')

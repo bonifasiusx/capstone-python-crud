@@ -1,8 +1,15 @@
-from read import *
 from create import *
+from read import *
+from delete import *
 from Utilities import *
 
-def subMenu1():
+'''
+To-Do Next:
+-> Update.py berdasarkan key dari siswaDict
+-> Menu [5]
+'''
+
+def subMenu1(backToMainMenu):
     while True:
         inputSubM1 = digitCheck('''
     [1] Detail Siswa Berdasarkan NIS
@@ -10,16 +17,16 @@ def subMenu1():
 
     Silahkan pilih Sub Menu: ''')
 
-        if inputSubM1 == 1:
-            cariDataSiswa()
-        elif inputSubM1 == 2:
-            return welcomeMessage(), mainMenu()
+        if inputSubM1 > 2 or inputSubM1 < 1:
+            print('\nOpsi tidak tersedia (Mohon pilih opsi 1 atau 2)')     
+        elif inputSubM1 == 1:
+            cariDataSiswa('\nMasukkan NIS: ')
         else:
-            print('''
-    Opsi tidak tersedia (Mohon pilih opsi 1 atau 2)''')
-
+            break
+    backToMainMenu()
+       
 def mainMenu():
-    # welcomeMessage() # checkSystemOS() ada disokin
+    welcomeMessage()
         
     menu = digitCheck('''
     [1] Tampilkan Data Siswa
@@ -33,23 +40,15 @@ def mainMenu():
 
     if menu == 0:
         return closingMessage()
-    elif menu == 1: # checksystemOS() jangan ditaro di dalam showSiswa() supaya pernyataan validasi dari Menu lain ga langsung terhapus
-        showSiswa(), subMenu1() # Loop user di subMenu1()
+    elif menu == 1:
+        showSiswa(), subMenu1(mainMenu) # Loop user di subMenu1()
     elif menu == 2:
-        return mainMenu()
-        # addSiswaBaru(), showSiswa()
+        showSiswaBaru(), isContinue('\nLanjutkan menambah Data Siswa Baru? [Ya/Tidak]: ', mainMenu, showSiswaBaru)
     elif menu == 3:
-        return mainMenu()
-        # pass
-        # editDataSiswa()
+        pass
+        # ============ #
     elif menu == 4:
-        return mainMenu()
-        # pass
-        # return delDataSiswa()
-    else: # Loop mainMenu() sampai user kasih input yang valid
-        print('''
-    Opsi tidak tersedia (Mohon pilih opsi yang ada)''')
-    #     print('''
-    # Pilihan tidak tersedia, silahkan coba lagi.''')
-        return mainMenu()
+        askDelete(), isContinue('\nLanjutkan menghapus data? [Ya/Tidak]: ', mainMenu, askDelete)
+    elif menu == 5: # ---> Refactor Utilities.py
+        pass
 
