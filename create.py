@@ -3,56 +3,52 @@ from Utilities import digitCheck, checkSystemOS
 from read import showSiswaInDetails
 import random
 
-'''
-To-Do Next:
--> Optimasi flow untuk showSiswaBaru() (Hindari nested-while & return recursive function)
--> Sambungkan create.py ke menuConsole
-'''
-
-def checkDuplicateSiswa(msg):
+def isSiswaExist(msg): # Cek jika input sudah ada
     while True: # Validasi nama kosong
         cekNama = input(msg).title()
         if cekNama == '':
-            print('''
-    Nama siswa tidak boleh kosong, silahkan coba lagi.''')
+            print('\nNama siswa tidak boleh kosong, silahkan coba lagi.')
             continue        
-    
+            
         # Validasi data siswa baru sudah ada duplikatnya
         for siswa in siswaDict:
             if cekNama == siswa['nama']:
                 print(f'''
-    Data siswa bernama {cekNama} sudah tercatat di dashboard
-    Silahkan pilih Menu Edit Data jika ingin melakukan perubahan''')
-                return ''
-        return cekNama
+Data siswa bernama {cekNama} sudah tercatat di dashboard
+Silahkan pilih Menu Edit Data jika ingin melakukan perubahan''')    
+                return False
+        return cekNama # Else -> Nama yang baru dimasukkan = Valid
+        
+def addSiswaBaru(): # User input untuk data siswa baru
+    namaSiswaBaru = isSiswaExist('\nTambah Nama Siswa Baru\t: ')
+    if not namaSiswaBaru:
+        return ''
 
-def addSiswaBaru():
-    # while True:
-        # checkDuplicateSiswa(namaSiswaBaru) # Cek duplikat data siswa baru
-    namaSiswaBaru = checkDuplicateSiswa('\nTambah Nama Siswa Baru\t: ') 
-        # if namaSiswaBaru != '':
-            # break
-    while True:    
+    while True: # Validasi kelas tidak boleh '' (kosong)
         kelasSiswaBaru = input('Kelas\t\t\t: ').upper()
         if kelasSiswaBaru == '':
-            print('''
-    Kelas siswa tidak boleh kosong, silahkan coba lagi.''')
+            print('\nKelas siswa tidak boleh kosong, silahkan coba lagi.\n')
             continue
         else:
-            break        
+            break
+                
     # Validasi userInput untuk siswa baru
     nilaiBaruMTK = digitCheck('Nilai Matematika\t: ')
     nilaiBaruIPA = digitCheck('Nilai IPA\t\t: ')
     nilaiBaruIPS = digitCheck('Nilai IPS\t\t: ')
     nilaiBaruIND = digitCheck('Nilai Bahasa Indonesia\t: ')
     nilaiBaruENG = digitCheck('Nilai Bahasa Inggris\t: ')
-     
-    return namaSiswaBaru, kelasSiswaBaru, nilaiBaruMTK, \
-    nilaiBaruIPA, nilaiBaruIPS, nilaiBaruIND, nilaiBaruENG
-# addSiswaBaru()
-
-def nisSiswaBaru(nama):
-    # Generate Unique NIS untuk siswa baru
+    
+    # Validasi simpan data
+    isSave = input(f'\nSimpan data? [Ya/Tidak]: ')
+    if isSave.lower() == 'ya':
+        return namaSiswaBaru, kelasSiswaBaru, nilaiBaruMTK, \
+        nilaiBaruIPA, nilaiBaruIPS, nilaiBaruIND, nilaiBaruENG
+    else:
+        print('\nPenambahan data baru telah dibatalkan.')
+        return ''
+        
+def nisSiswaBaru(nama): # Generate Unique NIS untuk siswa baru
     # NIS =  2 Angka Random + 2 Huruf Inisial
     randomNIS = str(random.randrange(10,100,3))
     inisial = nama[:5:2].upper()
@@ -60,44 +56,33 @@ def nisSiswaBaru(nama):
 
     return nisBaru
 # nisSiswaBaru()
+    
+def showSiswaBaru(): 
+    # Tangkap user input dari fungsi addSiswaBaru()
+    hasilSiswaBaru = addSiswaBaru()
+    if hasilSiswaBaru == '' or len(hasilSiswaBaru) < 7:
+        return 
+    
+    namaBaru, kelasBaru, nMTk, nIPA, nIPS, nIND, nENG = hasilSiswaBaru
+    
+    nisBaru = nisSiswaBaru(namaBaru) # Append data siswa baru ke siswaDict
+    siswaDict.append({
+        'nis': nisBaru,
+        'nama': namaBaru,
+        'kelas': kelasBaru,
+        'nilai': {
+            'Matematika': nMTk,
+            'IPA': nIPA,
+            'IPS': nIPS,
+            'Bahasa IND': nIND,
+            'English': nENG
+            }
+        })
+    
+    # Tampilkan hasil data
+    checkSystemOS()
+    print('\nSiswa baru berhasil ditambahkan!')
+    print(f'\nData Siswa Baru:\nNIS\t: {siswaDict[-1]['nis']}\nNama\t: {siswaDict[-1]['nama']}')
+    showSiswaInDetails()
 
-def showSiswaBaru(): # [2]
-    while True:
-        # Tangkap user input dari fungsi addSiswaBaru()
-        namaBaru, kelasBaru, nMTk, nIPA, nIPS, nIND, nENG = addSiswaBaru()
-        
-        isSave = input('\nSimpan Data? [Ya/Tidak]: ')
-        if isSave.lower() == 'tidak':
-            print(f'''
-    Penambahan Data Siswa ({namaBaru}) dibatalkan.''')
-        elif isSave.lower() == 'ya':
-            nisBaru = nisSiswaBaru(namaBaru) # Append data siswa baru ke siswaDict
-            siswaDict.append({
-                'nis': nisBaru,
-                'nama': namaBaru,
-                'kelas': kelasBaru,
-                'nilai': {
-                    'Matematika': nMTk,
-                    'IPA': nIPA,
-                    'IPS': nIPS,
-                    'Bahasa IND': nIND,
-                    'English': nENG
-                    }
-                })
-            # Validasi Penyimpanan Data
-            print(f'\nData Siswa Baru:\nNIS\t: {siswaDict[-1]['nis']}\nNama\t: {siswaDict[-1]['nama']}')
-
-            print('Siswa baru berhasil ditambahkan!')
-            # checkSystemOS()
-            showSiswaInDetails()
-        else:
-            print('Input tidak dikenali, melanjutkan program.')
-            continue
-        
-        isContinue = input('\nLanjutkan menambah Data Siswa Baru? [Ya/Tidak]: ')
-        if isContinue.lower() == 'tidak':
-            break
-        else:
-            print('Input tidak dikenali, melanjutkan program.')
-            continue
-showSiswaBaru()
+# showSiswaBaru()

@@ -27,18 +27,6 @@ def closingMessage():
     print('\n')
     print(tabulate(closing_msg, tablefmt='grid', stralign='center'))
 
-def generateUniqueNIS(): # HELPER
-# Dibuat hanya untuk generate Unique NIS untuk setiap siswa di siswaDict
-    for siswa in siswaDict:
-        # NIS =  2 Angka Random + 2 Huruf Inisial
-        randomNIS = str(random.randrange(10,100,3))
-        inisial = siswa['nama'][:5:2].upper()
-        nisBaru = randomNIS + inisial[:2]
-        
-        # Append (key:'NIS', values:nis) ke siswaDict
-        siswa['NIS'] = nisBaru
-        print(siswa['NIS'])
-
 def digitCheck(message):
 # Fungsi ini akan meng-handle error jika
 # User memberikan input yang bukan digit
@@ -49,13 +37,30 @@ def digitCheck(message):
         try:
             userInput = int(input(message))
             if userInput < 0:
-                print('''
-    Input tidak boleh negatif, silahkan coba lagi.''')
+                print('\nInput tidak boleh negatif, silahkan coba lagi.')
                 continue
             return userInput
         except ValueError:
-            print('''
-    Invalid input, silahkan coba lagi.''')
+            print('\nInvalid input, silahkan coba lagi.')
+
+def isContinue(message, functionToCall, returnToMainMenu=False):
+# Fungsi untuk validasi User ingin lanjut/tidak
+# isContinue dipanggil di --> menuConsole.py
+    while True:
+        aksUser = input(message)
+        if aksUser.lower() == 'tidak':
+            if returnToMainMenu:
+                return True # Kembali ke Main Menu
+            else:
+                break # Jika 'tidak'
+        elif aksUser.lower() == 'ya':
+            functionToCall() # Panggil function lain jika user mau lanjut
+            break # Break setelah selesai
+        else:
+            print('\nInput tidak dikenali, silahkan coba lagi.')
+    return False # Jika tidak perlu kembali ke Main Menu
+    # checkSystemOS() 
+    # backToMainMenu()
 
 def gradeNilai(nilaiDict):
 # Fungsi ini menghitung rata-rata nilai setiap siswa
@@ -73,3 +78,15 @@ def gradeNilai(nilaiDict):
         return 'C'
     else:
         return 'F'
+    
+# def generateUniqueNIS(): # HELPER saat membuat SiswaDict
+# # Dibuat hanya untuk generate Unique NIS untuk setiap siswa di siswaDict
+#     for siswa in siswaDict:
+#         # NIS =  2 Angka Random + 2 Huruf Inisial
+#         randomNIS = str(random.randrange(10,100,3))
+#         inisial = siswa['nama'][:5:2].upper()
+#         nisBaru = randomNIS + inisial[:2]
+        
+#         # Append (key:'NIS', values:nis) ke siswaDict
+#         siswa['NIS'] = nisBaru
+#         print(siswa['NIS'])

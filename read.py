@@ -19,31 +19,37 @@ def showSiswaInDetails(): # PROBLEM TO FIX
            
     print(tabulate(siswa, siswaColumn, tablefmt="grid", numalign='center', rowalign='align'))
 
-def cariDataSiswa(prompt): # Sub-Menu [1] -> Detail Siswa Berdasarkan NIS
-    cariSiswa = input(prompt).upper()
-    targetSiswa = {} # Cocokin type data dengan tempat data siswa disimpan -> siswa == Dictionary
+def cariDataSiswa(prompt): # Sub-Menu [1] -> Detail Data Siswa Berdasarkan NIS
+    kuota = 0
+    while kuota < 3:
+        cariSiswa = input(prompt).upper()
+        targetSiswa = {} # Cocokin type data dengan tempat data siswa disimpan -> siswa == Dictionary
     
-    for siswa in siswaDict:
-        if siswa['nis'] == cariSiswa:
-            targetSiswa = siswa
-            break
-    # for loop dulu baru cek validasi, jangan ketuker!
-    if targetSiswa == {}:
-        print('\nData siswa tidak ditemukan, mohon masukkan NIS yang valid.')
-        return ''
-    
-    # Akses nested-dict supaya setiap mapel jadi kolom
-    listMapelTarget = list(targetSiswa['nilai'].keys())
-    listNilaiTarget = list(targetSiswa['nilai'].values())
-    targetColumn = ['NIS', 'Nama', 'Kelas'] + listMapelTarget
-    targetRow = [targetSiswa['nis'], targetSiswa['nama'], targetSiswa['kelas']] + listNilaiTarget
-    
-    # checkSystemOS()
-    print(f'\nNIS: {cariSiswa} ditemukan!\n')
-    print(tabulate([targetRow], headers=targetColumn, tablefmt="grid", numalign='center', rowalign='center'))
-    # Jadiin function support untuk editDataSiswa()
-    return cariSiswa, targetSiswa
-    # return cariSiswa, targetSiswa, listMapelTarget, listNilaiTarget, targetColumn, targetRow
+        for siswa in siswaDict:
+            if siswa['nis'] == cariSiswa:
+                targetSiswa = siswa
+                break
+        # for loop dulu baru cek validasi, jangan ketuker!
+        if not targetSiswa:
+            kuota += 1
+            if kuota == 3:
+                print('\nInvalid input mencapai batas, kembali ke Sub-Menu.')
+                return None
+            else:
+                print(f'\nData siswa tidak ditemukan, mohon masukkan NIS yang valid.\n({3 - kuota} percobaan tersisa)')
+        
+        else:
+            # Tampilkan data siswa yang dicari
+            listMapelTarget = list(targetSiswa['nilai'].keys())
+            listNilaiTarget = list(targetSiswa['nilai'].values())
+            targetColumn = ['NIS', 'Nama', 'Kelas'] + listMapelTarget
+            targetRow = [targetSiswa['nis'], targetSiswa['nama'], targetSiswa['kelas']] + listNilaiTarget
+            
+            # checkSystemOS()
+            print(f'\nNIS: {cariSiswa} ditemukan!\n')
+            print(tabulate([targetRow], headers=targetColumn, tablefmt="grid", numalign='center', rowalign='center'))
+            return cariSiswa, targetSiswa
+            # return cariSiswa, targetSiswa, listMapelTarget, listNilaiTarget, targetColumn, targetRow
     
 def showSiswa(): # [1]
     print('\nDashboard Siswa:\n')
@@ -60,4 +66,3 @@ def showSiswa(): # [1]
         showSiswaColumn = ['NIS', 'Nama', 'Kelas', 'Grade', 'Status']             
         
     print(tabulate(siswa, showSiswaColumn, tablefmt="grid", numalign='center', rowalign='align'))
-

@@ -80,3 +80,4 @@ siswa = []
 listMapel = list(siswaDict[0]['nilai'].keys()) 
 # Akses key dari: SiswaDict -> [] -> {nilai} {keys,value}
 siswaColumn = ['NIS', 'Nama', 'Kelas'] + listMapel # Concate listMapel ke column
+# print(siswaDict[1])
