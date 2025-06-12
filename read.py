@@ -1,6 +1,6 @@
 from tabulate import tabulate
 from Database import *
-from Utilities import gradeNilai
+from Utilities import gradeNilai, checkSystemOS
 
 # Flow yang diinginkan:
 # Menu 1 -> Siswa + Status
@@ -33,6 +33,7 @@ def cariDataSiswa(prompt): # Sub-Menu [1] -> Detail Data Siswa Berdasarkan NIS
         if not targetSiswa:
             kuota += 1
             if kuota == 3:
+                # checkSystemOS()
                 print('\nInvalid input mencapai batas, kembali ke Sub-Menu.')
                 return None
             else:
@@ -66,3 +67,7 @@ def showSiswa(): # [1]
         showSiswaColumn = ['NIS', 'Nama', 'Kelas', 'Grade', 'Status']             
         
     print(tabulate(siswa, showSiswaColumn, tablefmt="grid", numalign='center', rowalign='align'))
+    
+    
+if __name__ == '__main__':
+    showSiswa()

@@ -1,5 +1,5 @@
 from Database import *
-from Utilities import digitCheck
+from Utilities import digitCheck, checkSystemOS
 from read import cariDataSiswa, showSiswaInDetails
 
 bin = [] # Lokasi penampungan soft-delete
@@ -42,7 +42,7 @@ def displayBin(): # Function untuk menampilkan Recycle Bin
     if not bin:
         print('\nRecycle Bin kosong.')
         return False  # Tidak menampilkan apa-apa
-    print('\nIsi Bin (Soft Deleted Data):\n')
+    print('\nRecycle Bin (Recently Deleted):\n')
     for i, siswa in enumerate(bin): # Tampilkan data yang ada di Recycle Bin
         print(f"{i + 1}. NIS: {siswa['nis']}, Nama: {siswa['nama']}, Kelas: {siswa['kelas']}")
     return True 
@@ -69,3 +69,20 @@ def permanentlyDeleteStudent(): # Function untuk menghapus siswa secara permanen
     else:
         print('\nInput nomor tidak valid. Silahkan coba lagi.')
         return False
+    
+def deleteConsole():
+    while True:
+        askDelete()
+        isDone = input('\nLanjutkan menghapus Data Siswa? [Ya/Tidak]: ')
+        if isDone.lower() == 'tidak':
+            return
+        elif isDone.lower() == 'ya':
+            checkSystemOS()
+            continue
+        else:
+            print('\nInput tidak dikenali, kembali ke Menu Utama.')
+            return
+
+
+if __name__ == '__main__':
+    deleteConsole()

@@ -4,7 +4,6 @@ from Database import *
 from read import *
 
 def main():
-    welcomeMessage()
     mainMenu()
 
 if __name__ == '__main__':

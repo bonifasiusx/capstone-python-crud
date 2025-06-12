@@ -6,9 +6,6 @@ from Utilities import *
 
 '''
 To-Do Next:
--> TO FIX: update.py -> validUpdate() -> siswaDict[idx] (Issue: Looping saat idx = None -> Crash)
--> TO FIX: Implementasi isContinue()
--> Ide Solusi: Terapin while loop hanya di Main Menu dan function di Utilities.py saja
 -> Menu [5] -> Mapel dengan tingkat kesulitan tertinggi/terendah
 -> Rata-rata kelulusan siswa
 '''
@@ -50,14 +47,23 @@ def manageBin():
                     break  # Exit setelah permanent delete selesai
         except ValueError:
             print('\nInput tidak valid, mohon pilih Sub-Menu yang tersedia.')
-    
-    # Panggil isContinue untuk kembali ke menu utama
-    # if isContinue('\nKembali ke menu utama? [Ya/Tidak]: ', manageBin, returnToMainMenu=True):
-    #     return  # Keluar dari manageBin dan kembali ke main menu
+
+def binConsole():
+    while True:
+        manageBin()
+        isDone = input('\nKembali ke menu utama? [Ya/Tidak]: ')
+        if isDone.lower() == 'ya':
+            return
+        elif isDone.lower() == 'tidak':
+            checkSystemOS()
+            continue
+        else:
+            print('\nInput tidak dikenali, kembali ke Menu Utama.')
+            return
     
 def mainMenu():
     while True:
-        welcomeMessage()
+        welcomeMessage() # -----------
             
         menu = digitCheck('''
     [1] Tampilkan Data Siswa
@@ -73,15 +79,24 @@ def mainMenu():
         if menu == 0:
             return closingMessage()
         elif menu == 1:
+            checkSystemOS()
             showSiswa(), subMenu1() # Loop user di subMenu1()
         elif menu == 2:
-            showSiswaBaru(), isContinue('\nLanjutkan menambah Data Siswa Baru? [Ya/Tidak]: ', showSiswaBaru, returnToMainMenu=True)
+            checkSystemOS()
+            createConsole()
+            # showSiswaBaru(), isContinue('\nLanjutkan menambah Data Siswa Baru? [Ya/Tidak]: ', showSiswaBaru, returnToMainMenu=True)
         elif menu == 3:
-            validUpdate(), isContinue('\nApakah Anda ingin melanjutkan update data siswa? [Ya/Tidak]: ', validUpdate, returnToMainMenu=True)
+            checkSystemOS()
+            updateConsole()
         elif menu == 4:
-            askDelete(), isContinue('\nLanjutkan menghapus data? [Ya/Tidak]: ', askDelete, returnToMainMenu=True)
+            checkSystemOS()
+            deleteConsole()
         elif menu == 5: # ---> Refactor Utilities.py
             pass
         elif menu == 6:
-            manageBin(), isContinue('\nKembali ke menu utama? [Ya/Tidak]: ', manageBin, returnToMainMenu=True)
-            pass
+            checkSystemOS()
+            binConsole()
+     
+            
+if __name__ == '__main__':
+    mainMenu()

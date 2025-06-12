@@ -1,5 +1,5 @@
 from read import cariDataSiswa, showSiswaInDetails
-from Utilities import digitCheck
+from Utilities import digitCheck, checkSystemOS
 from Database import *
 
 def updateDataSiswa():
@@ -51,7 +51,7 @@ def validUpdate(): # Update Data Siswa
     if idx == '':
         return
     
-    siswa = siswaDict[idx]
+    siswa = siswaDict[idx] # Error -> NoneType slicing
     
     while True:
         update = digitCheck('''
@@ -88,13 +88,30 @@ def validUpdate(): # Update Data Siswa
             print('\nOpsi tidak tersedia, silahkan coba lagi.')
             continue
         
-        isDoneUpdate = input('\nUpdate data lain? [Ya/Tidak]: ')
+        isDoneUpdate = input('\nUpdate kolom lainnya? [Ya/Tidak]: ')
         if isDoneUpdate.lower() == 'tidak':
-            break 
+            print('\nProses update selesai.')
+            showSiswaInDetails()
+            return ''
+            # break 
         elif isDoneUpdate.lower() == 'ya':
             continue
             
-    print('\nProses update selesai')
-    showSiswaInDetails()
+def updateConsole():
+    while True:
+        validUpdate()
+        isDone = input('\nLanjutkan update data siswa? [Ya/Tidak]: ')
+        if isDone.lower() == 'tidak':
+            return
+        elif isDone.lower() == 'ya':
+            checkSystemOS()
+            continue
+        else:
+            print('\nInput tidak dikenali, kembali ke Menu Utama.')
+            return
+    # isContinue('\nApakah Anda ingin melanjutkan update data siswa? [Ya/Tidak]: ', validUpdate, returnToMainMenu=True)
     
 # validUpdate()
+
+if __name__ == '__main__':
+    updateConsole()

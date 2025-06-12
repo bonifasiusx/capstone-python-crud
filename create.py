@@ -80,9 +80,24 @@ def showSiswaBaru():
         })
     
     # Tampilkan hasil data
-    checkSystemOS()
+    # checkSystemOS()
     print('\nSiswa baru berhasil ditambahkan!')
     print(f'\nData Siswa Baru:\nNIS\t: {siswaDict[-1]['nis']}\nNama\t: {siswaDict[-1]['nama']}')
     showSiswaInDetails()
-
-# showSiswaBaru()
+    
+    
+def createConsole():
+    while True:
+        showSiswaBaru()
+        isDone = input('\nLanjutkan menambah Data Siswa Baru? [Ya/Tidak]: ')
+        if isDone.lower() == 'tidak':
+            return
+        elif isDone.lower() == 'ya':
+            checkSystemOS()
+            continue
+        else:
+            print('\nInput tidak dikenali, kembali ke Menu Utama.')
+            return
+    
+if __name__ == '__main__':
+    createConsole()

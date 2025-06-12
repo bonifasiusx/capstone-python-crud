@@ -37,30 +37,14 @@ def digitCheck(message):
         try:
             userInput = int(input(message))
             if userInput < 0:
-                print('\nInput tidak boleh negatif, silahkan coba lagi.')
+                print('\nInput tidak boleh negatif, silahkan coba lagi.\n')
+                continue
+            elif userInput > 100:
+                print('\nInput melebihi batasan, silahkan coba lagi.\n')
                 continue
             return userInput
         except ValueError:
-            print('\nInvalid input, silahkan coba lagi.')
-
-def isContinue(message, functionToCall, returnToMainMenu=False):
-# Fungsi untuk validasi User ingin lanjut/tidak
-# isContinue dipanggil di --> menuConsole.py
-    while True:
-        aksUser = input(message)
-        if aksUser.lower() == 'tidak':
-            if returnToMainMenu:
-                return True # Kembali ke Main Menu
-            else:
-                break # Jika 'tidak'
-        elif aksUser.lower() == 'ya':
-            functionToCall() # Panggil function lain jika user mau lanjut
-            break # Break setelah selesai
-        else:
-            print('\nInput tidak dikenali, silahkan coba lagi.')
-    return False # Jika tidak perlu kembali ke Main Menu
-    # checkSystemOS() 
-    # backToMainMenu()
+            print('\nInvalid input, silahkan coba lagi.\n')
 
 def gradeNilai(nilaiDict):
 # Fungsi ini menghitung rata-rata nilai setiap siswa
@@ -78,6 +62,25 @@ def gradeNilai(nilaiDict):
         return 'C'
     else:
         return 'F'
+
+# def isContinue(message, functionToCall, returnToMainMenu=False): # CONSIDER TO DELETE
+# # Fungsi untuk validasi User ingin lanjut/tidak
+# # isContinue dipanggil di --> menuConsole.py
+#     while True:
+#         aksUser = input(message)
+#         if aksUser.lower() == 'tidak':
+#             if returnToMainMenu:
+#                 return True # Kembali ke Main Menu
+#             else:
+#                 break # Jika 'tidak'
+#         elif aksUser.lower() == 'ya':
+#             functionToCall() # Panggil function lain jika user mau lanjut
+#             break # Break setelah selesai
+#         else:
+#             print('\nInput tidak dikenali, silahkan coba lagi.')
+#     return False # Jika tidak perlu kembali ke Main Menu
+    # checkSystemOS() 
+    # backToMainMenu()
     
 # def generateUniqueNIS(): # HELPER saat membuat SiswaDict
 # # Dibuat hanya untuk generate Unique NIS untuk setiap siswa di siswaDict
