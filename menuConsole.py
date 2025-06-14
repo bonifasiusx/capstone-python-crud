@@ -6,11 +6,6 @@ from insight import *
 from Utilities import *
 from time import sleep
 
-'''
-To-Do Next:
--> Bikin flow chart untuk setiap fitur CRUD
-'''
-
 def login(username, password): # Fungsi untuk limitasi akses antara ADMIN & GUEST
     user = 'admin'
     passwd = 'rungkad7x7x'
