@@ -6,7 +6,6 @@ from tabulate import tabulate
 def checkSystemOS():
 # Fungsi untuk menghapus tampilan di terminal
 # Setiap kali checkSystemOS dijalankan
-# checkSystemOS() dipanggil di dalam fungsi welcomeMessage(), create.py --> showSiswaBaru()
     system = os.name
     if system == 'posix':
         os.system('clear')
@@ -23,7 +22,7 @@ def welcomeMessage():
     print(f'    {welcomeSymbol}')
 
 def closingMessage():
-    closing_msg = [['PROGRAM SELESAI, TERIMAKASIH']]
+    closing_msg = [['PROGRAM SELESAI TERIMAKASIH']]
     print('\n')
     print(tabulate(closing_msg, tablefmt='grid', stralign='center'))
 
@@ -32,24 +31,22 @@ def digitCheck(message):
 # User memberikan input yang bukan digit
 # User memberikan input berupa angka negatif
 # Lalu memberikan feedback di setiap error yang terdeksi oleh digitCheck(message)
-# digitCheck dipanggil di --> menuConsole.py
     while True:
         try:
             userInput = int(input(message))
             if userInput < 0:
-                print('\nInput tidak boleh negatif, silahkan coba lagi.\n')
+                print('\nInput tidak boleh negatif, silahkan coba lagi.')
                 continue
             elif userInput > 100:
-                print('\nInput melebihi batasan, silahkan coba lagi.\n')
+                print('\nInput melebihi batasan, silahkan coba lagi.')
                 continue
             return userInput
         except ValueError:
-            print('\nInvalid input, silahkan coba lagi.\n')
+            print('\nInvalid input, silahkan coba lagi.')
 
 def gradeNilai(nilaiDict):
 # Fungsi ini menghitung rata-rata nilai setiap siswa
 # Lalu merubah nilai rata-rata tsb menjadi Grade -> [A, B, C, F]
-# gradeNilai dipanggil di --> read.py -> showSiswa()
     listNilai = list(nilaiDict.values())
     listNilai = [int(nilai) for nilai in listNilai]
     averageNilai = sum(listNilai) / len(listNilai)
@@ -63,25 +60,26 @@ def gradeNilai(nilaiDict):
     else:
         return 'F'
 
-# def isContinue(message, functionToCall, returnToMainMenu=False): # CONSIDER TO DELETE
-# # Fungsi untuk validasi User ingin lanjut/tidak
-# # isContinue dipanggil di --> menuConsole.py
-#     while True:
-#         aksUser = input(message)
-#         if aksUser.lower() == 'tidak':
-#             if returnToMainMenu:
-#                 return True # Kembali ke Main Menu
-#             else:
-#                 break # Jika 'tidak'
-#         elif aksUser.lower() == 'ya':
-#             functionToCall() # Panggil function lain jika user mau lanjut
-#             break # Break setelah selesai
-#         else:
-#             print('\nInput tidak dikenali, silahkan coba lagi.')
-#     return False # Jika tidak perlu kembali ke Main Menu
-    # checkSystemOS() 
-    # backToMainMenu()
-    
+def backToMenu(prompt):
+# Fungsi untuk handle error dari user input
+# saat validasi lanjut/tidak di setiap fitur CRUD
+    pressEnter = input(prompt)
+    if pressEnter == '':
+        return
+
+def loopValidator(toDo, prompt):
+    while True:
+        checkSystemOS()
+        toDo()
+        isDone = input(prompt)
+        if isDone.lower() == 'tidak':
+            return
+        elif isDone.lower() == 'ya':
+            continue
+        else:
+            backToMenu('\nInput tidak dikenali\nTekan ENTER untuk kembali ke Menu Utama\n')
+            return
+
 # def generateUniqueNIS(): # HELPER saat membuat SiswaDict
 # # Dibuat hanya untuk generate Unique NIS untuk setiap siswa di siswaDict
 #     for siswa in siswaDict:

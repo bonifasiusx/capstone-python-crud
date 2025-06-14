@@ -1,28 +1,26 @@
 from read import cariDataSiswa, showSiswaInDetails
-from Utilities import digitCheck, checkSystemOS
+from Utilities import digitCheck, checkSystemOS, loopValidator
 from Database import *
 
 def updateDataSiswa():
     showSiswaInDetails()
-    while True:
-        hasil = cariDataSiswa('\nCari siswa berdasarkan NIS: ')
+
+    hasil = cariDataSiswa('\nMasukkan NIS untuk data yang ingin di-update: ')
+    
+    if hasil is None:
+        return # Kembali ke Menu Utama (Kuota 3x Pencarian Gagal)
+    
+    cariSiswa = hasil[0]
+    dataSiswaFound = False
+    
+    for idx, siswa in enumerate(siswaDict):
+        if siswa['nis'] == cariSiswa:
+            dataSiswaFound = True
+            break
         
-        if hasil is None:
-            return # Kembali ke Menu Utama (Kuota 3x Pencarian Gagal)
-        
-        cariSiswa = hasil[0]
-        dataSiswaFound = False
-        
-        for idx, siswa in enumerate(siswaDict):
-            if siswa['nis'] == cariSiswa:
-                dataSiswaFound = True
-                break
-            
-        if dataSiswaFound:
-            return idx
-        else:
-            print(f'\nSiswa dengan NIS {hasil} tidak ditemukan, silahkan coba lagi.')
-# updateDataSiswa()
+    if dataSiswaFound:
+        siswa = siswaDict[idx]
+        return idx, siswa
 
 def pilihMapel(siswa): # Sub-Menu untuk memilih mapel yg mau di update
     while True:
@@ -46,14 +44,15 @@ def pilihMapel(siswa): # Sub-Menu untuk memilih mapel yg mau di update
         else:
             ('\nMata Pelajaran tidak tersedia, silahkan coba lagi.')
     
-def validUpdate(): # Update Data Siswa
-    idx = updateDataSiswa()
-    if idx == '':
-        return
+def validUpdate(): # Fungsi untuk Operasi Update Data Siswa
+    isValid = False # Validasi untuk memastikan data siswa ditemukan
+    try:
+        idx, siswa = updateDataSiswa()
+        isValid = True 
+    except TypeError: # Jika updateDataSiswa mengembalikan None
+        return 
     
-    siswa = siswaDict[idx] # Error -> NoneType slicing
-    
-    while True:
+    while isValid:
         update = digitCheck('''
     Update Data Siswa
     
@@ -90,28 +89,13 @@ def validUpdate(): # Update Data Siswa
         
         isDoneUpdate = input('\nUpdate kolom lainnya? [Ya/Tidak]: ')
         if isDoneUpdate.lower() == 'tidak':
+            checkSystemOS()
             print('\nProses update selesai.')
             showSiswaInDetails()
-            return ''
-            # break 
+            return 
         elif isDoneUpdate.lower() == 'ya':
             continue
-            
-def updateConsole():
-    while True:
-        validUpdate()
-        isDone = input('\nLanjutkan update data siswa? [Ya/Tidak]: ')
-        if isDone.lower() == 'tidak':
-            return
-        elif isDone.lower() == 'ya':
-            checkSystemOS()
-            continue
-        else:
-            print('\nInput tidak dikenali, kembali ke Menu Utama.')
-            return
-    # isContinue('\nApakah Anda ingin melanjutkan update data siswa? [Ya/Tidak]: ', validUpdate, returnToMainMenu=True)
-    
-# validUpdate()
 
-if __name__ == '__main__':
-    updateConsole()
+def updateConsole():
+    checkSystemOS()
+    loopValidator(validUpdate, '\nLanjutkan update data siswa? [Ya/Tidak]: ')

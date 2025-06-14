@@ -2,68 +2,56 @@ from create import *
 from read import *
 from update import *
 from delete import *
+from insight import *
 from Utilities import *
+from time import sleep
 
 '''
 To-Do Next:
--> Menu [5] -> Mapel dengan tingkat kesulitan tertinggi/terendah
--> Rata-rata kelulusan siswa
+-> Bikin flow chart untuk setiap fitur CRUD
 '''
 
-def subMenu1():
-    while True:
-        inputSubM1 = digitCheck('''
-    [1] Detail Siswa Berdasarkan NIS
-    [2] Kembali ke Menu Utama
+def login(username, password): # Fungsi untuk limitasi akses antara ADMIN & GUEST
+    user = 'admin'
+    passwd = 'rungkad7x7x'
+    roles = ['ADMIN', 'GUEST']
 
-    Silahkan pilih Sub Menu: ''')
-
-        if inputSubM1 > 2 or inputSubM1 < 1:
-            print('\nOpsi tidak tersedia, silahkan coba lagi.')     
-        elif inputSubM1 == 1:
-            cariDataSiswa('\nMasukkan NIS: ')
+    loginAttempt = 0
+    while loginAttempt < 3:
+        checkUsername = input(username)
+        checkPassword = input(password)
+        
+        if checkUsername == user and checkPassword == passwd:
+            role = roles[0]
+            print('\nLOGIN SUCCESS')
+            sleep(0.5)
+            print('Initializing system...')
+            sleep(0.5)
+            print('Granting full access...')
+            sleep(0.5)
+            break
         else:
-        #     # Jika memilih untuk kembali ke menu utama, panggil isContinue dengan returnToMainMenu=True
-        #     isContinue('Apakah Anda ingin melanjutkan update data siswa? [Ya/Tidak]: ', None, returnToMainMenu=True)
-            break # Kembali ke Main Menu jika isContinue = 'ya'
+            loginAttempt += 1
+            if loginAttempt < 3:
+                print(f'\nIncorrect Password ({3 - loginAttempt} attempts left)')
+                sleep(0.5)
+                checkSystemOS()
+            else:
+                role = roles[1]
+                print(f'\nLimiting access...')
+                sleep(0.5)
+                print(f'SETTING ROLE AS {role}')
+                sleep(0.5)
+                break
 
-def manageBin():
-    if not displayBin():
-        return  # Jika Recycle Bin kosong, keluar dari function
-    
-    while True:
-        try:
-            pilihan = digitCheck('''    
-    [1] Restore Data Siswa
-    [2] Hapus Permanen Data Siswa
-    
-    Pilih Sub-Menu Recyle Bin: ''')
-            
-            if pilihan == 1:
-                if restoreStudent():
-                    break  # Exit setelah selesai restore
-            elif pilihan == 2:
-                if permanentlyDeleteStudent():
-                    break  # Exit setelah permanent delete selesai
-        except ValueError:
-            print('\nInput tidak valid, mohon pilih Sub-Menu yang tersedia.')
+    return checkUsername, checkPassword, role        
 
-def binConsole():
-    while True:
-        manageBin()
-        isDone = input('\nKembali ke menu utama? [Ya/Tidak]: ')
-        if isDone.lower() == 'ya':
-            return
-        elif isDone.lower() == 'tidak':
-            checkSystemOS()
-            continue
-        else:
-            print('\nInput tidak dikenali, kembali ke Menu Utama.')
-            return
-    
 def mainMenu():
+    isAdmin = login('\nUSER\t\t: ', 'PASSWORD\t: ')
+    isAdmin = isAdmin[-1]
+
     while True:
-        welcomeMessage() # -----------
+        welcomeMessage()
             
         menu = digitCheck('''
     [1] Tampilkan Data Siswa
@@ -75,28 +63,32 @@ def mainMenu():
     [0] Exit
 
     Silahkan pilih menu: ''')
-
+        
+        if isAdmin == 'ADMIN':
+            pass
+        else: # Limitasi akses GUEST dari fitur Edit, Delete, dan Recycle Bin
+            if menu == 3 or menu == 4 or menu == 6:
+                checkSystemOS()
+                print('\nAkses ditolak, hanya ADMIN yang dapat mengakses fitur ini.')
+                backToMenu('\nTekan ENTER untuk kembali ke Menu Utama\n')
+                continue
+        
         if menu == 0:
             return closingMessage()
         elif menu == 1:
-            checkSystemOS()
-            showSiswa(), subMenu1() # Loop user di subMenu1()
+            readConsole()
         elif menu == 2:
-            checkSystemOS()
             createConsole()
-            # showSiswaBaru(), isContinue('\nLanjutkan menambah Data Siswa Baru? [Ya/Tidak]: ', showSiswaBaru, returnToMainMenu=True)
         elif menu == 3:
-            checkSystemOS()
             updateConsole()
         elif menu == 4:
-            checkSystemOS()
             deleteConsole()
-        elif menu == 5: # ---> Refactor Utilities.py
-            pass
-        elif menu == 6:
+        elif menu == 5:
             checkSystemOS()
+            insightConsole()
+        elif menu == 6:
             binConsole()
      
-            
+
 if __name__ == '__main__':
     mainMenu()

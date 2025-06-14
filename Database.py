@@ -20,10 +20,10 @@ siswaDict = [ # List of Dictionary
         'nama': 'Sheril Qonita', 
         'kelas': 'IX-1', 
         'nilai': {
-            'Matematika': 94,
+            'Matematika': 86,
             'IPA': 88,
             'IPS': 78,
-            'Bahasa IND': 86,
+            'Bahasa IND': 94,
             'English': 90
         }
     },
@@ -56,10 +56,10 @@ siswaDict = [ # List of Dictionary
         'nama': 'Raymond Murphy', 
         'kelas': 'IX-2', 
         'nilai': {
-            'Matematika': 88,
+            'Matematika': 70,
             'IPA': 78,
             'IPS': 65,
-            'Bahasa IND': 70,
+            'Bahasa IND': 88,
             'English': 82
         }
     },

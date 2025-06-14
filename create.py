@@ -1,5 +1,5 @@
 from Database import *
-from Utilities import digitCheck, checkSystemOS
+from Utilities import digitCheck, checkSystemOS, loopValidator
 from read import showSiswaInDetails
 import random
 
@@ -15,7 +15,7 @@ def isSiswaExist(msg): # Cek jika input sudah ada
             if cekNama == siswa['nama']:
                 print(f'''
 Data siswa bernama {cekNama} sudah tercatat di dashboard
-Silahkan pilih Menu Edit Data jika ingin melakukan perubahan''')    
+Silahkan pilih Menu Edit Data jika ingin melakukan perubahan''')
                 return False
         return cekNama # Else -> Nama yang baru dimasukkan = Valid
         
@@ -24,7 +24,7 @@ def addSiswaBaru(): # User input untuk data siswa baru
     if not namaSiswaBaru:
         return ''
 
-    while True: # Validasi kelas tidak boleh '' (kosong)
+    while True: # Validasi kelas tidak boleh kosong
         kelasSiswaBaru = input('Kelas\t\t\t: ').upper()
         if kelasSiswaBaru == '':
             print('\nKelas siswa tidak boleh kosong, silahkan coba lagi.\n')
@@ -49,13 +49,12 @@ def addSiswaBaru(): # User input untuk data siswa baru
         return ''
         
 def nisSiswaBaru(nama): # Generate Unique NIS untuk siswa baru
-    # NIS =  2 Angka Random + 2 Huruf Inisial
+# NIS =  2 Angka Random + 2 Huruf Inisial
     randomNIS = str(random.randrange(10,100,3))
     inisial = nama[:5:2].upper()
     nisBaru = randomNIS + inisial[:2]    
 
     return nisBaru
-# nisSiswaBaru()
     
 def showSiswaBaru(): 
     # Tangkap user input dari fungsi addSiswaBaru()
@@ -79,25 +78,10 @@ def showSiswaBaru():
             }
         })
     
-    # Tampilkan hasil data
-    # checkSystemOS()
     print('\nSiswa baru berhasil ditambahkan!')
     print(f'\nData Siswa Baru:\nNIS\t: {siswaDict[-1]['nis']}\nNama\t: {siswaDict[-1]['nama']}')
     showSiswaInDetails()
     
-    
 def createConsole():
-    while True:
-        showSiswaBaru()
-        isDone = input('\nLanjutkan menambah Data Siswa Baru? [Ya/Tidak]: ')
-        if isDone.lower() == 'tidak':
-            return
-        elif isDone.lower() == 'ya':
-            checkSystemOS()
-            continue
-        else:
-            print('\nInput tidak dikenali, kembali ke Menu Utama.')
-            return
-    
-if __name__ == '__main__':
-    createConsole()
+    checkSystemOS()
+    loopValidator(showSiswaBaru, '\nLanjutkan menambah Data Siswa Baru? [Ya/Tidak]: ')

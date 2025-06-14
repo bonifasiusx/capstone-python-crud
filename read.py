@@ -1,13 +1,25 @@
 from tabulate import tabulate
 from Database import *
-from Utilities import gradeNilai, checkSystemOS
+from Utilities import gradeNilai, checkSystemOS, digitCheck
 
-# Flow yang diinginkan:
-# Menu 1 -> Siswa + Status
-# SubMenu1 -> Input NIS -> Siswa + Nilai Setiap Mapel = cariDataSiswa()
-# showSiswaInDetails() ??? -> Rombak untuk jadi function di Menu [5] Insight -> Siswa/Mapel + Insight
+def subMenu1(): 
+    while True:
+        inputSubM1 = digitCheck('''
+    [1] Detail Siswa Berdasarkan NIS
+    [2] Kembali ke Menu Utama
 
-def showSiswaInDetails(): # PROBLEM TO FIX
+    Silahkan pilih Sub-Menu: ''')
+
+        if inputSubM1 > 2 or inputSubM1 < 1:
+            print('\nOpsi tidak tersedia, silahkan coba lagi.')     
+        elif inputSubM1 == 1:
+            checkSystemOS()
+            showSiswa()
+            cariDataSiswa('\nMasukkan NIS: ')
+        else:
+            return
+        
+def showSiswaInDetails(): # Fungsi -> Tabulate Siswa + rincian nilai setiap mapel
     siswa.clear() # .clear() agar output tabel data tidak tumpang-tindih
     
     print('\nDashboard Siswa in Details:\n')
@@ -19,7 +31,9 @@ def showSiswaInDetails(): # PROBLEM TO FIX
            
     print(tabulate(siswa, siswaColumn, tablefmt="grid", numalign='center', rowalign='align'))
 
-def cariDataSiswa(prompt): # Sub-Menu [1] -> Detail Data Siswa Berdasarkan NIS
+def cariDataSiswa(prompt): # Fungsi untuk mencari siswa berdasarkan input NIS
+# Fungsi untuk operasi di Sub-Menu [1]
+# Sebagai function helper di [3] Update
     kuota = 0
     while kuota < 3:
         cariSiswa = input(prompt).upper()
@@ -33,8 +47,7 @@ def cariDataSiswa(prompt): # Sub-Menu [1] -> Detail Data Siswa Berdasarkan NIS
         if not targetSiswa:
             kuota += 1
             if kuota == 3:
-                # checkSystemOS()
-                print('\nInvalid input mencapai batas, kembali ke Sub-Menu.')
+                print('\nInvalid input mencapai batas.')
                 return None
             else:
                 print(f'\nData siswa tidak ditemukan, mohon masukkan NIS yang valid.\n({3 - kuota} percobaan tersisa)')
@@ -46,15 +59,13 @@ def cariDataSiswa(prompt): # Sub-Menu [1] -> Detail Data Siswa Berdasarkan NIS
             targetColumn = ['NIS', 'Nama', 'Kelas'] + listMapelTarget
             targetRow = [targetSiswa['nis'], targetSiswa['nama'], targetSiswa['kelas']] + listNilaiTarget
             
-            # checkSystemOS()
             print(f'\nNIS: {cariSiswa} ditemukan!\n')
             print(tabulate([targetRow], headers=targetColumn, tablefmt="grid", numalign='center', rowalign='center'))
             return cariSiswa, targetSiswa
-            # return cariSiswa, targetSiswa, listMapelTarget, listNilaiTarget, targetColumn, targetRow
     
-def showSiswa(): # [1]
+def showSiswa(): # Fungsi -> Tabulate Siswa + grade nilai
     print('\nDashboard Siswa:\n')
-    siswa.clear() # .clear() agar output tabel data tidak tumpang-tindih
+    siswa.clear()
     for items in siswaDict:
         nis = items['nis']
         nama = items['nama']
@@ -67,7 +78,8 @@ def showSiswa(): # [1]
         showSiswaColumn = ['NIS', 'Nama', 'Kelas', 'Grade', 'Status']             
         
     print(tabulate(siswa, showSiswaColumn, tablefmt="grid", numalign='center', rowalign='align'))
-    
-    
-if __name__ == '__main__':
+
+def readConsole():
+    checkSystemOS()
     showSiswa()
+    subMenu1()
