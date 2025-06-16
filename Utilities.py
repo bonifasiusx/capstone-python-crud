@@ -1,6 +1,4 @@
 import os
-import random
-from Database import *
 from tabulate import tabulate
 
 def checkSystemOS():
@@ -28,8 +26,8 @@ def closingMessage():
 
 def digitCheck(message):
 # Fungsi ini akan meng-handle error jika
-# User memberikan input yang bukan digit
-# User memberikan input berupa angka negatif
+    # -> User memberikan input yang bukan digit
+    # -> User memberikan input berupa angka negatif
 # Lalu memberikan feedback di setiap error yang terdeksi oleh digitCheck(message)
     while True:
         try:
@@ -80,6 +78,8 @@ def loopValidator(toDo, prompt):
             backToMenu('\nInput tidak dikenali\nTekan ENTER untuk kembali ke Menu Utama\n')
             return
 
+
+# import random
 # def generateUniqueNIS(): # HELPER saat membuat SiswaDict
 # # Dibuat hanya untuk generate Unique NIS untuk setiap siswa di siswaDict
 #     for siswa in siswaDict:

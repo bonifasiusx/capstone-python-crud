@@ -1,9 +1,9 @@
-from create import *
-from read import *
-from update import *
-from delete import *
-from insight import *
-from Utilities import *
+from Utilities import welcomeMessage, closingMessage, checkSystemOS, digitCheck, backToMenu
+from create import createConsole
+from read import readConsole
+from update import updateConsole
+from delete import deleteConsole, binConsole
+from insight import insightConsole
 from time import sleep
 
 def login(username, password): # Fungsi untuk limitasi akses antara ADMIN & GUEST

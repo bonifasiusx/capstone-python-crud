@@ -1,9 +1,9 @@
 from read import cariDataSiswa, showSiswaInDetails
 from Utilities import digitCheck, checkSystemOS, loopValidator
-from Database import *
+from Database import siswaDict, listMapel
 
 def updateDataSiswa():
-    showSiswaInDetails()
+    showSiswaInDetails() # Tampilkan data sebagai acuan untuk user
 
     hasil = cariDataSiswa('\nMasukkan NIS untuk data yang ingin di-update: ')
     
@@ -21,28 +21,6 @@ def updateDataSiswa():
     if dataSiswaFound:
         siswa = siswaDict[idx]
         return idx, siswa
-
-def pilihMapel(siswa): # Sub-Menu untuk memilih mapel yg mau di update
-    while True:
-        pilih = digitCheck('''    
-    [1] Matematika
-    [2] IPA
-    [3] IPS
-    [4] Bahasa Indonesia
-    [5] Bahasa Inggris
-    
-    Pilih Mata Pelajaran: ''')
-    
-        listMapel = ['Matematika', 'IPA', 'IPS', 'Bahasa IND', 'English']
-        
-        if pilih in [1, 2, 3, 4, 5]:
-            mapel = listMapel[pilih - 1] # Pilih mapel berdasarkan input
-            nilaiUpdate = digitCheck(f'''
-    Masukkan nilai untuk {mapel}: ''')
-            siswa['nilai'][mapel] = nilaiUpdate # Update nilai berdasarkan mapel yg dipilih
-            break
-        else:
-            ('\nMata Pelajaran tidak tersedia, silahkan coba lagi.')
     
 def validUpdate(): # Fungsi untuk Operasi Update Data Siswa
     isValid = False # Validasi untuk memastikan data siswa ditemukan
@@ -95,6 +73,29 @@ def validUpdate(): # Fungsi untuk Operasi Update Data Siswa
             return 
         elif isDoneUpdate.lower() == 'ya':
             continue
+
+def pilihMapel(siswa): # Sub-Menu untuk memilih mapel yg mau di update
+    while True:
+        pilih = digitCheck('''    
+    [1] Matematika
+    [2] IPA
+    [3] IPS
+    [4] Bahasa Indonesia
+    [5] Bahasa Inggris
+    
+    Pilih Mata Pelajaran: ''')
+    
+        # listMapel = ['MTK', 'IPA', 'IPS', 'B.IND', 'B.ING']
+        
+        if pilih in [1, 2, 3, 4, 5]:
+            mapel = listMapel[pilih - 1] # Pilih mapel berdasarkan input
+            nilaiUpdate = digitCheck(f'''
+    Masukkan nilai untuk {mapel}: ''')
+            siswa['nilai'][mapel] = nilaiUpdate # Update nilai berdasarkan mapel yg dipilih
+            break
+        else:
+            ('\nMata Pelajaran tidak tersedia, silahkan coba lagi.')
+            
 
 def updateConsole():
     checkSystemOS()

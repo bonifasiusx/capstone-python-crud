@@ -1,10 +1,8 @@
-from menuConsole import *
-from Utilities import *
-from Database import *
-from read import *
+from menuConsole import mainMenu
 
 def main():
     mainMenu()
+
 
 if __name__ == '__main__':
     main()

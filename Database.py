@@ -1,18 +1,15 @@
-'''
-siswa = [] To-Be --> [Isi data siswa yang ingin ditampilkan by default (Data Siswa + Status Kelulusan)]
-'''
-
-siswaDict = [ # List of Dictionary
+# List of Dictionary
+siswaDict = [ 
     {
         'nis': '28LO',
         'nama': 'Leon Kennedy', 
         'kelas': 'IX-1', 
         'nilai': {
-            'Matematika': 80,
+            'MTK': 80,
             'IPA': 78,
             'IPS': 82,
-            'Bahasa IND': 88,
-            'English': 85
+            'B.IND': 88,
+            'B.ING': 85
         }
     },
     {
@@ -20,11 +17,11 @@ siswaDict = [ # List of Dictionary
         'nama': 'Sheril Qonita', 
         'kelas': 'IX-1', 
         'nilai': {
-            'Matematika': 86,
+            'MTK': 86,
             'IPA': 88,
             'IPS': 78,
-            'Bahasa IND': 94,
-            'English': 90
+            'B.IND': 94,
+            'B.ING': 90
         }
     },
     {
@@ -32,11 +29,11 @@ siswaDict = [ # List of Dictionary
         'nama': 'Elisabeth Rose', 
         'kelas': 'IX-3', 
         'nilai': {
-            'Matematika': 72,
+            'MTK': 72,
             'IPA': 60,
             'IPS': 68,
-            'Bahasa IND': 75,
-            'English': 62
+            'B.IND': 75,
+            'B.ING': 62
         }
     },
     {
@@ -44,11 +41,11 @@ siswaDict = [ # List of Dictionary
         'nama': 'Joe Hendrix', 
         'kelas': 'IX-2', 
         'nilai': {
-            'Matematika': 80,
+            'MTK': 80,
             'IPA': 78,
             'IPS': 82,
-            'Bahasa IND': 88,
-            'English': 85
+            'B.IND': 88,
+            'B.ING': 85
         }
     },
     {
@@ -56,11 +53,11 @@ siswaDict = [ # List of Dictionary
         'nama': 'Raymond Murphy', 
         'kelas': 'IX-2', 
         'nilai': {
-            'Matematika': 70,
+            'MTK': 70,
             'IPA': 78,
             'IPS': 65,
-            'Bahasa IND': 88,
-            'English': 82
+            'B.IND': 88,
+            'B.ING': 82
         }
     },
     {
@@ -68,16 +65,15 @@ siswaDict = [ # List of Dictionary
         'nama': 'Dudung Nalepa', 
         'kelas': 'IX-3', 
         'nilai': {
-            'Matematika': 62,
+            'MTK': 62,
             'IPA': 65,
             'IPS': 65,
-            'Bahasa IND': 70,
-            'English': 45
+            'B.IND': 70,
+            'B.ING': 45
         }
     },
 ]
-siswa = []
+siswa = [] # Lokasi tampilan default (Data Siswa & Status Kelulusan)
+bin = [] # Lokasi penampungan soft-delete
 listMapel = list(siswaDict[0]['nilai'].keys()) 
-# Akses key dari: SiswaDict -> [] -> {nilai} {keys,value}
 siswaColumn = ['NIS', 'Nama', 'Kelas'] + listMapel # Concate listMapel ke column
-# print(siswaDict[1])

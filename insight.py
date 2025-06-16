@@ -1,8 +1,8 @@
-from Database import *
+from Database import siswaDict
 from Utilities import backToMenu
 from tabulate import tabulate
 
-def mapelSulit():
+def mapelSulit(): # Fungsi untuk mencari mapel dengan rata-rata nilai tertinggi dan terendah
     # Mendapatkan semua mapel yang ada
     listMapel = list(siswaDict[0]['nilai'].keys())
     avgMapel = {}
@@ -21,7 +21,7 @@ def mapelSulit():
 
     return mapelTertinggi, avgMapel[mapelTertinggi], mapelTerendah, avgMapel[mapelTerendah]
 
-def rataKelulusan():
+def rataKelulusan(): # Fungsi untuk presentase kelulusan siswa
     lulus = 0
     totalSiswa = len(siswaDict)
 
@@ -32,7 +32,7 @@ def rataKelulusan():
     persentaseKelulusan = (lulus / totalSiswa) * 100
     return persentaseKelulusan
 
-def showMapelSulit():
+def showMapelSulit(): # Fungsi untuk menampilkan tabulate [5] Insight 
     # Mengambil hasil mapel sulit dan mudah
     mapelTertinggi, nilaiTertinggi, mapelTerendah, nilaiTerendah = mapelSulit()
     nilaiTerendah = round(nilaiTerendah, 2)
@@ -42,21 +42,22 @@ def showMapelSulit():
 
     # Data untuk tabel mapel sulit dan mudah
     dataMapel = [
-        ['Mata Pelajaran Tersulit', mapelTerendah, nilaiTerendah],
-        ['Mata Pelajaran Termudah', mapelTertinggi, nilaiTertinggi],
+        ['Mapel Tersulit', mapelTerendah, nilaiTerendah],
+        ['Mapel Termudah', mapelTertinggi, nilaiTertinggi],
     ]
     
     # Header tabel mapel
-    headersMapel = ['Keterangan', 'Mata Pelajaran', 'Rata-Rata']
+    headersMapel = ['Keterangan', 'Mapel', 'Rata-Rata']
 
     # Menampilkan tabel mapel dengan tabulate
-    print(tabulate(dataMapel, headers=headersMapel, tablefmt="grid", numalign="center"))
+    print(tabulate(dataMapel, headers=headersMapel, tablefmt="grid", stralign="center",numalign="center"))
     
     # Data untuk tabel persentase kelulusan
     dataKelulusan = [[f'Persentase Kelulusan Seluruh Siswa = {persentaseLulus}%']]
     
     # Menampilkan tabel persentase kelulusan terpisah
     print("\n" + tabulate(dataKelulusan, tablefmt="grid", numalign="center"))
+
 
 def insightConsole():
     while True:

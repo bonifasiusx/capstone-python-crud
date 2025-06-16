@@ -1,12 +1,12 @@
-from Database import *
+from Database import siswaDict
 from Utilities import digitCheck, checkSystemOS, loopValidator
 from read import showSiswaInDetails
 import random
 
-def isSiswaExist(msg): # Cek jika input sudah ada
-    while True: # Validasi nama kosong
+def isSiswaExist(msg): # Fungsi untuk validasi jika input data baru sudah ada
+    while True:
         cekNama = input(msg).title()
-        if cekNama == '':
+        if cekNama == '': # Validasi nama kosong
             print('\nNama siswa tidak boleh kosong, silahkan coba lagi.')
             continue        
             
@@ -19,10 +19,10 @@ Silahkan pilih Menu Edit Data jika ingin melakukan perubahan''')
                 return False
         return cekNama # Else -> Nama yang baru dimasukkan = Valid
         
-def addSiswaBaru(): # User input untuk data siswa baru
+def addSiswaBaru(): # Fungsi untuk menambahkan data siswa baru
     namaSiswaBaru = isSiswaExist('\nTambah Nama Siswa Baru\t: ')
     if not namaSiswaBaru:
-        return ''
+        return None # Jika input baru tervalidasi tidak ada duplikat
 
     while True: # Validasi kelas tidak boleh kosong
         kelasSiswaBaru = input('Kelas\t\t\t: ').upper()
@@ -32,7 +32,7 @@ def addSiswaBaru(): # User input untuk data siswa baru
         else:
             break
                 
-    # Validasi userInput untuk siswa baru
+    # Validasi input user untuk siswa baru
     nilaiBaruMTK = digitCheck('Nilai Matematika\t: ')
     nilaiBaruIPA = digitCheck('Nilai IPA\t\t: ')
     nilaiBaruIPS = digitCheck('Nilai IPS\t\t: ')
@@ -46,9 +46,9 @@ def addSiswaBaru(): # User input untuk data siswa baru
         nilaiBaruIPA, nilaiBaruIPS, nilaiBaruIND, nilaiBaruENG
     else:
         print('\nPenambahan data baru telah dibatalkan.')
-        return ''
+        return None
         
-def nisSiswaBaru(nama): # Generate Unique NIS untuk siswa baru
+def nisSiswaBaru(nama): # Fungsi untuk generate Unique NIS untuk siswa baru
 # NIS =  2 Angka Random + 2 Huruf Inisial
     randomNIS = str(random.randrange(10,100,3))
     inisial = nama[:5:2].upper()
@@ -59,7 +59,7 @@ def nisSiswaBaru(nama): # Generate Unique NIS untuk siswa baru
 def showSiswaBaru(): 
     # Tangkap user input dari fungsi addSiswaBaru()
     hasilSiswaBaru = addSiswaBaru()
-    if hasilSiswaBaru == '' or len(hasilSiswaBaru) < 7:
+    if hasilSiswaBaru == None or len(hasilSiswaBaru) < 7:
         return 
     
     namaBaru, kelasBaru, nMTk, nIPA, nIPS, nIND, nENG = hasilSiswaBaru
@@ -70,17 +70,18 @@ def showSiswaBaru():
         'nama': namaBaru,
         'kelas': kelasBaru,
         'nilai': {
-            'Matematika': nMTk,
+            'MTK': nMTk,
             'IPA': nIPA,
             'IPS': nIPS,
-            'Bahasa IND': nIND,
-            'English': nENG
+            'B.IND': nIND,
+            'B.ING': nENG
             }
         })
     
     print('\nSiswa baru berhasil ditambahkan!')
     print(f'\nData Siswa Baru:\nNIS\t: {siswaDict[-1]['nis']}\nNama\t: {siswaDict[-1]['nama']}')
     showSiswaInDetails()
+    
     
 def createConsole():
     checkSystemOS()
